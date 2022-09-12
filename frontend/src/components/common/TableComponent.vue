@@ -7,6 +7,7 @@ const props  = defineProps({
     columns: null,
     rows:{
         required: true,
+        default: []
     },
     input : {
         default: ''
@@ -15,11 +16,11 @@ const props  = defineProps({
 
 
 const rowsComp = computed(() => {
-    const rowsMap = props.rows.map((item) => {
+    const rowsMap = props.rows.map((item:any) => {
        
-        let selectors =[]
+        let selectors:any[] =[]
 
-        props.columns.forEach((col) => {
+        props.columns.forEach((col:any) => {
             if(col.selector in item) {
                selectors.push(item[col.selector])
             }

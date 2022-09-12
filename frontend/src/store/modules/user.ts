@@ -3,6 +3,7 @@ const SET_USER = 'SET_USER'
 const ADD_USER = 'ADD_USER'
 
 import axios from 'axios';
+import { Commit } from 'vuex';
 import client from '../../client';
 
 interface User {
@@ -25,12 +26,16 @@ const user = {
     actions: {
         setForm({
             commit
-        }, payload) {
+        }: {
+            commit: any
+        }, payload:any) {
             commit(SET_FORM, payload)
         },
          setUserDispatch({
             commit
-        }, payload) {
+        }: {
+            commit: Commit
+        }, payload:any) {
             return new Promise(async (resolve, reject) => {
                 client.get('/siswa')
                 .then((resp) => {
@@ -45,7 +50,10 @@ const user = {
         },
         addUserDispatch({
             commit
-        }, payload) {
+        }:
+        {
+            commit: Commit
+        }, payload:any) {
            return new Promise(async (resolve, reject) => {
             try{
                 let response = await client.post('/siswa', payload);
@@ -61,19 +69,19 @@ const user = {
         }
     },
     mutations: {
-        [SET_FORM](state, payload){
+        [SET_FORM](state:any, payload:any){
             state.form = payload;
         },
-        [SET_USER](state, payload){
+        [SET_USER](state:any, payload:any){
             console.log(payload)
             state.users = payload
         },
-        [ADD_USER](state, payload) {
+        [ADD_USER](state:any, payload:any) {
             state.users.push(payload)
         }
     },
     getters: {
-        users(state) {
+        users(state:any) {
             return state.users
         }
     }

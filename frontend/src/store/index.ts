@@ -8,7 +8,7 @@ import userMod from './modules/user'
 const store = createStore({
     modules: {
         sidebarMod:sidebarMod,
-        userMod, userMod
+        userMod 
     }
 })
 

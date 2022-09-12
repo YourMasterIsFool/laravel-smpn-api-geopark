@@ -1,3 +1,4 @@
+import { Commit } from "vuex";
 
 const SET_OPEN = 'SET_OPEN';
 
@@ -14,7 +15,9 @@ const sidebar = {
         }
     } ,
     actions: {
-        setOpen({ commit }) {
+        setOpen({ commit }: {
+            commit:Commit
+        }) {
             commit(SET_OPEN)
         }
     },

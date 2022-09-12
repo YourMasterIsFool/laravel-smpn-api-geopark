@@ -49,7 +49,7 @@ import { computed } from '@vue/reactivity';
         console.log("hahas")
     })
 
-    function validationForm(forms) {
+    function validationForm(forms:any) {
         for(let key in forms) {
             if(forms[key] == '' ) {
                 return false
