@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SiswaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,5 @@ use App\Http\Controllers\AuthController;
 
 Route::get('/test', [AuthController::class, 'test']);
 Route::post('/login', [AuthController::class, 'loginUser']);
+
+Route::resource('/siswa', SiswaController::class);
