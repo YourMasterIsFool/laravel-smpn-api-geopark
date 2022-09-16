@@ -4,6 +4,10 @@ import Modal from '../../components/common/Modal.vue';
 import { onBeforeMount, onMounted, reactive, ref } from 'vue';
 import { useStore } from 'vuex';
 import { computed } from '@vue/reactivity';
+import {
+    Icon
+} from '@iconify/vue'
+import client from '../../client';
     
     const columns = [
         {
@@ -77,9 +81,37 @@ import { computed } from '@vue/reactivity';
 
 
 
+    const modalUpload = reactive<{
+        open: boolean,
+        file: Blob | string,
+        filename: string | null
+    }>({
+        open: false,
+        file: "",
+        filename: null
+    })
 
+    const uploadExcel = async () => {
+        const formData = new FormData();
+        formData.append('file', modalUpload.file);
+        try {
+            let response = await client.post('/siswa/import/user', formData);
 
+            if(response.status == 200) {
+                alert(response.data?.message)
+                modalUpload.file = ""
+                modalUpload.filename = ""
+            }
+        }
+        catch(e:any) {
+            console.log(e)
+        }
+    }
 
+    const fileHandler = (e:any) => {
+        modalUpload.file = e.target.files[0];
+        modalUpload.filename = e.target.files[0].name;
+    }
 
 </script>
 
@@ -90,10 +122,47 @@ import { computed } from '@vue/reactivity';
         </header>
         <main>
             <div class="flex justify-end mb-4 ">
+                <button @click="modalUpload.open = true" class="bg-black px-6 py-2 mr-4 rounded-md text-white text-sm">
+                    Import File
+                </button>
                 <button @click="modalState = true" class="bg-blue-500 text-sm transition-all duration-300 hover:bg-blue-600 text-white px-6 py-2 flex items-center rounded-md">
                     Add User
                 </button>
+
             </div>
+
+            <Modal :open="modalUpload.open" @close-handler="modalUpload.open = false">
+                <template v-slot:modal-header>
+                    Upload File User
+                </template>
+                <template v-slot:modal-content>
+                    <div class="relative cursor-pointer w-full border flex items-center justify-center rounded-md h-24">
+                        <input @change="fileHandler" type="file" class="absolute z-0 opacity-0 top-0 left-0 w-full h-full">
+                        <div v-if="modalUpload.filename == null" class="flex flex-col items-center">
+                            <span class="text-xs text-gray-500">
+                                Please import something
+                            </span>
+                            <Icon  icon='uil:import' class="text-gray-400"/>
+
+                        </div>
+                        <div v-else class="flex flex-col items-center">
+                            <span class="text-xs text-gray-500">
+                               {{modalUpload.filename}}
+                            </span>
+                            <Icon  icon="akar-icons:file" class="text-gray-400"/>
+                        </div>
+                    </div>  
+                </template>
+                <template v-slot:modal-footer>
+                    <div class="flex justify-end">
+                        <button @click="uploadExcel" class="px-6 py-2 bg-black rounded-md text-white capitalize font-semibold text-white">
+                            Import
+                        </button>
+                    </div>  
+                </template>
+            </Modal>
+
+
             <TableComponent :rows="usersComp"  :columns="columns" :input="input"/>
             <Modal :open="modalState" @close-handler="modalState = false">
                 <template v-slot:modal-header>

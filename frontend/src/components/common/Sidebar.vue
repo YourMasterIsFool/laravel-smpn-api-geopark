@@ -16,7 +16,7 @@ import { useStore } from 'vuex';
     <div id="sidebar" :class="['fixed z-100 transition-all duration-300 h-screen w-64 py-6 px-3 bg-black',  sidebarOpen ? 'sidebar-hide' : '']">
         <ul class="flex flex-col">
             <li @click="router.push({
-                name: 'user-index'
+                name: 'user-index'  
             })">
                 <Icon class="icon " icon="clarity:users-line" />
                 <span>
